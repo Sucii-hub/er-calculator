@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Engagement Rate Media Sosial | Digital Marketing Tools</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --excellent-bg: #dcfce7;
+      --excellent-text: #15803d;
+      --good-bg: #e0f2fe;
+      --good-text: #0369a1;
+      --average-bg: #fef9c3;
+      --average-text: #a16207;
+      --low-bg: #fee2e2;
+      --low-text: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 500px;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    .result-card {
+      background: #f1f5f9;
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 24px;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .result-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-label {
+      color: var(--text-muted);
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .highlight-value {
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+
+    .status-badge {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.4;
+    }
+
+    .status-excellent { background: var(--excellent-bg); color: var(--excellent-text); }
+    .status-good { background: var(--good-bg); color: var(--good-text); }
+    .status-average { background: var(--average-bg); color: var(--average-text); }
+    .status-low { background: var(--low-bg); color: var(--low-text); }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>📈 Engagement Rate Calculator</h1>
+      <p>Ukur tingkat interaksi & performa media sosial secara presisi</p>
+    </div>
+
+    <div class="form-group">
+      <label for="followers">Jumlah Followers / Pengikut</label>
+      <input type="number" id="followers" placeholder="Contoh: 10000" oninput="hitungER()">
+    </div>
+
+    <div class="form-group">
+      <label for="likes">Rata-rata Likes per Postingan</label>
+      <input type="number" id="likes" placeholder="Contoh: 450" oninput="hitungER()">
+    </div>
+
+    <div class="form-group">
+      <label for="comments">Rata-rata Komentar per Postingan</label>
+      <input type="number" id="comments" placeholder="Contoh: 50" oninput="hitungER()">
+    </div>
+
+    <!-- Hasil Perhitungan -->
+    <div class="result-card">
+      <div class="result-row">
+        <span class="result-label">Total Interaksi / Post:</span>
+        <span class="result-value" id="resInteraksi">0</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Engagement Rate (ER):</span>
+        <span class="result-value highlight-value" id="resER">0.00%</span>
+      </div>
+
+      <div id="statusBadge" class="status-badge status-average" style="display: none;">
+        Masukkan data untuk melihat performa akun
+      </div>
+    </div>
+
+    <div class="footer">
+      Dibuat oleh <a href="https://sucii-hub.github.io/" target="_blank">Sucii</a> | Digital Marketing Tools
+    </div>
+  </div>
+
+  <script>
+    function hitungER() {
+      const followers = parseFloat(document.getElementById('followers').value) || 0;
+      const likes = parseFloat(document.getElementById('likes').value) || 0;
+      const comments = parseFloat(document.getElementById('comments').value) || 0;
+
+      const totalInteraksi = likes + comments;
+      const er = followers > 0 ? ((totalInteraksi / followers) * 100) : 0;
+
+      document.getElementById('resInteraksi').innerText = totalInteraksi.toLocaleString('id-ID');
+      document.getElementById('resER').innerText = er.toFixed(2) + '%';
+
+      const badge = document.getElementById('statusBadge');
+      if (followers > 0 && totalInteraksi >= 0) {
+        badge.style.display = 'block';
+        if (er < 1) {
+          badge.className = 'status-badge status-low';
+          badge.innerText = '🔴 PERFORMA RENDAH (< 1%)\nKeterikatan audiens minim. Perlu evaluasi konten!';
+        } else if (er >= 1 && er < 3.5) {
+          badge.className = 'status-badge status-average';
+          badge.innerText = '🟡 PERFORMA RATA-RATA (1% - 3.5%)\nSesuai standar rata-rata industri media sosial.';
+        } else if (er >= 3.5 && er < 6) {
+          badge.className = 'status-badge status-good';
+          badge.innerText = '🟢 PERFORMA BAGUS (3.5% - 6%)\nTingkat interaksi audiens tergolong tinggi & sehat!';
+        } else {
+          badge.className = 'status-badge status-excellent';
+          badge.innerText = '🚀 SANGAT TINGGI (> 6%)\nLuar biasa! Konten sangat viral & audiens sangat aktif.';
+        }
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
